@@ -20,7 +20,7 @@ namespace servicios.implementaciones.facturacion
         }
 
         public Usuario LeerUsario(int idUser)
-        {
+        { 
             var d = _dbSet.Find(idUser);
             return d;
         }
