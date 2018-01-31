@@ -7,6 +7,6 @@ namespace servicios.interfaces
 {
     public interface IRepoUsuarios : IRepo<Usuario, int>
     {
-
+        List<Role> LeerRoles(int idUser);
     }
 }

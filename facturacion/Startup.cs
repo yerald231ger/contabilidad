@@ -24,12 +24,12 @@ namespace facturacion
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-
+        {   
             services.AddDbContext<FacturacionDbContext>(options =>
                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddTransient<IRepoUsuarios, RepoUsuarios>();
+            
             services.AddMvc();
         }
 
@@ -45,7 +45,7 @@ namespace facturacion
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

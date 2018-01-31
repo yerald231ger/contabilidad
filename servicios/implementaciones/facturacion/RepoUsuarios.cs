@@ -1,9 +1,9 @@
 ﻿using datos.db;
+using System.Collections.Generic;
+using System.Linq;
 using datos.Objetos;
 using servicios.interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace servicios.implementaciones.facturacion
 {
@@ -11,7 +11,11 @@ namespace servicios.implementaciones.facturacion
     {
         public RepoUsuarios(FacturacionDbContext dbContext) : base(dbContext)
         {
-
+        }
+        
+        public List<Role> LeerRoles(int idUser)
+        {
+            return _context.Set<Role>().FromSql("").ToList();
         }
     }
 }

@@ -23,6 +23,7 @@ namespace servicios.implementaciones.facturacion
 
         public ICollection<TEntity> Read()
         {
+            
             return _dbSet.Where(e => e.EsActivo).ToList();
         }
 
