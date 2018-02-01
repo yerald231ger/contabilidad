@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using facturacion.Models;
 using servicios.interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace facturacion.Controllers
 {
@@ -17,7 +18,7 @@ namespace facturacion.Controllers
         {
             this._repoUsuarios = repoUsuarios;
         }
-
+        
         public IActionResult Index()
         {
             return View();
@@ -34,6 +35,11 @@ namespace facturacion.Controllers
         {
             ViewData["Message"] = "Your contact page.";
 
+            return View();
+        }
+
+        public IActionResult LogIn()
+        {
             return View();
         }
 

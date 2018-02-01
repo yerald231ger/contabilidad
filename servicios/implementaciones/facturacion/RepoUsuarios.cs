@@ -13,25 +13,26 @@ namespace servicios.implementaciones.facturacion
         {
         }
         
-        public List<Role> LeerRoles(int idUser)
+        public List<Rol> LeerRoles(int idUser)
         {
-            var d = _context.Set<Role>().FromSql("").ToList();
-            return d;
+            var usuario = _context.Set<Rol>().FromSql("").ToList();
+            return usuario;
         }
 
         public Usuario LeerUsario(int idUser)
         { 
-            var d = _dbSet.Find(idUser);
-            return d;
+            var usuario = _dbSet.Find(idUser);
+            usuario.CargarRoles(this);
+            return usuario;
         }
     }
 
-
     public static class UsuarioExtensions
     {
-        public static Usuario CargarRoles(this Usuario usuario)
+        public static Usuario CargarRoles(this Usuario usuario, RepoUsuarios repo)
         {
-            return null;
+            usuario.Roles = repo.LeerRoles(usuario.Id);
+            return usuario;
         }
     }
 }

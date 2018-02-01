@@ -10,9 +10,9 @@ namespace datos.Objetos
         public string SegundoApellido { get; set; }
         public string NombreUsuario { get; set; }
         public DateTime FechaNacimineto { get; set; }
-        public string Email { get; set; }
+        public string Correo { get; set; }
         public string NumeroCelular { get; set; }
 
-        public ICollection<Role> Roles { get; set; }
+        public ICollection<Rol> Roles { get; set; }
     }
 }

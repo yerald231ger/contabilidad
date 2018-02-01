@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using datos.db;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +30,17 @@ namespace facturacion
             services.AddDbContext<FacturacionDbContext>(options =>
                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddLogging();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => {
+                    options.AccessDeniedPath = "cuenta/denegado";
+                    options.LoginPath = "cuenta/login";
+                    options.LogoutPath = "home/";
+                    options.Cookie.Expiration = TimeSpan.FromMinutes(2.5);
+                });
+
+
             services.AddTransient<IRepoUsuarios, RepoUsuarios>();
             
             services.AddMvc();
@@ -47,6 +60,8 @@ namespace facturacion
             }
             
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
