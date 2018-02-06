@@ -21,8 +21,28 @@ namespace facturacion.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar Contraseña")]
-        [Compare("Contrsena", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Contrasena", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmarContrasena { get; set; }
+
+        [Required]
+        [Display(Name = "Nombre")]
+        public string Nombre { get; set; }
+
+        [Required]
+        [Display(Name = "Primer Apellido")]
+        public string PrimerApellido { get; set; }
+
+        [Required]
+        [Display(Name = "Segundo Apellido")]
+        public string SegundoApellido { get; set; }
+
+        [Required]
+        [Display(Name = "Fecha Nacimiento")]
+        [DataType(DataType.Date)]
+        public DateTime FechaNacimiento { get; set; }
+
+        [Display(Name = "Movil")]
+        public string NumeroCelular { get; set; }
     }
 }
 

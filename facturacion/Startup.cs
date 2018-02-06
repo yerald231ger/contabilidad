@@ -34,9 +34,9 @@ namespace facturacion
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => {
-                    options.AccessDeniedPath = "cuenta/denegado";
-                    options.LoginPath = "cuenta/login";
-                    options.LogoutPath = "home/";
+                    options.AccessDeniedPath = "/cuenta/denegado";
+                    options.LoginPath = "/cuenta/login";
+                    options.LogoutPath = "/home/";
                     options.Cookie.Expiration = TimeSpan.FromMinutes(2.5);
                 });
 

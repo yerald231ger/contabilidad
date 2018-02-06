@@ -4,9 +4,7 @@ using System.Text;
 
 namespace datos.Objetos
 {
-    public class Rol
+    public class Rol : Base<int>
     {
-        public int IdRol { get; set; }
-        public string Nombre { get; set; }
     }
 }

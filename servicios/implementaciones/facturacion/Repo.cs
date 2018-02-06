@@ -46,9 +46,11 @@ namespace servicios.implementaciones.facturacion
         public TEntity Create(TEntity entity)
         {
             entity.EsActivo = true;
-            entity.FechaModificaion = DateTime.Now;
+            entity.FechaModificacion = DateTime.Now;
             entity.FechaAlta = DateTime.Now;
-            return _dbSet.Add(entity).Entity;
+            var entityR = _dbSet.Add(entity).Entity;
+            Complete();
+            return entityR;
         }
 
         public Task<TEntity> CreateAsync(TEntity entity)
@@ -63,7 +65,7 @@ namespace servicios.implementaciones.facturacion
 
         public EntityEntry<TEntity> Update(TEntity entity)
         {
-            entity.FechaModificaion = DateTime.Now;
+            entity.FechaModificacion = DateTime.Now;
             return _dbSet.Update(entity);
         }
 

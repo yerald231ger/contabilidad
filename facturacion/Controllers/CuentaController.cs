@@ -10,16 +10,19 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using servicios.interfaces;
 
 namespace facturacion.Controllers
 {
     public class CuentaController : Controller
     {
         private readonly ILogger _logger;
+        private readonly IRepoUsuarios _repoUsuario;
 
-        public CuentaController(ILogger logger)
+        public CuentaController(ILogger<CuentaController> logger, IRepoUsuarios repoUsuarios)
         {
             _logger = logger;
+            _repoUsuario = repoUsuarios;
         }
 
         public IActionResult Registro(string returnUrl = null)
@@ -42,7 +45,21 @@ namespace facturacion.Controllers
                 // on the email address maria.rodriguez@contoso.com with 
                 // any password that passes model validation.
 
+
+               var usuario = _repoUsuario.Create(new Usuario
+                {
+                    Nombre = model.Nombre,
+                    PrimerApellido = model.PrimerApellido,
+                    SegundoApellido = model.SegundoApellido,
+                    NumeroCelular = model.NumeroCelular,
+                    NombreUsuario = model.Correo,
+                    Correo = model.Correo,
+                    Contrasena = model.Contrasena,
+                    FechaNacimiento = model.FechaNacimiento
+               });
+
                 var user = await AuthenticateUser(model.Correo, model.Contrasena);
+
 
                 if (user == null)
                 {

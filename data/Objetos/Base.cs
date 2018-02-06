@@ -8,7 +8,7 @@ namespace datos.Objetos
     {
         public string Nombre { get; set; }
         public DateTime FechaAlta { get; set; }
-        public DateTime FechaModificaion { get; set; }
+        public DateTime FechaModificacion { get; set; }
         public bool EsActivo { get; set; }
     }
 
