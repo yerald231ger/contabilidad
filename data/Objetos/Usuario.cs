@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace datos.Objetos
@@ -15,6 +16,9 @@ namespace datos.Objetos
 
         public string Contrasena { get; set; }
         
+        [NotMapped]
         public ICollection<Rol> Roles { get; set; }
+        [NotMapped]
+        public ICollection<Especificacion> Especificaciones { get; set; }
     }
 }

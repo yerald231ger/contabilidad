@@ -21,6 +21,7 @@ namespace facturacion.Controllers
         
         public IActionResult Index()
         {
+            var d = _repoUsuarios.LeerUsario(1);
             return View();
         }
 
