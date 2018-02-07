@@ -9,11 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "datos", "data\datos.csproj"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "servicios", "servicios\servicios.csproj", "{23C3F728-7B1F-42C6-A5A9-17F9B3E5C986}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bdEsquema", "bdEsquema", "{30848508-C32E-4527-8046-621611942FFB}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\..\..\Desktop\dbCFDI.sql = ..\..\..\..\Desktop\dbCFDI.sql
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
