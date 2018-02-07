@@ -4,7 +4,7 @@ using System.Text;
 
 namespace datos.Objetos
 {
-    class ClaimsUsuario
+    public class Especificacion : Base<int>
     {
     }
 }

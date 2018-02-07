@@ -44,8 +44,6 @@ namespace facturacion.Controllers
                 // For demonstration purposes, the sample validates the user
                 // on the email address maria.rodriguez@contoso.com with 
                 // any password that passes model validation.
-
-
                var usuario = _repoUsuario.Create(new Usuario
                 {
                     Nombre = model.Nombre,
@@ -57,6 +55,17 @@ namespace facturacion.Controllers
                     Contrasena = model.Contrasena,
                     FechaNacimiento = model.FechaNacimiento
                });
+
+
+                if(usuario.Id > 0)
+                {
+                  
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return View(model);
+                }
 
                 var user = await AuthenticateUser(model.Correo, model.Contrasena);
 
