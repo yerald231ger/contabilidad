@@ -20,5 +20,10 @@ namespace datos.Objetos
         public ICollection<Rol> Roles { get; set; }
         [NotMapped]
         public ICollection<Especificacion> Especificaciones { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Nombre} {PrimerApellido} {SegundoApellido}";
+        }
     }
 }

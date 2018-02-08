@@ -8,8 +8,9 @@ namespace servicios.interfaces
 
     public interface IRepoUsuarios : IRepo<Usuario, int>
     {
-        string ObtenerHash(string NombreUsuario);
+        string ObtenerHash(string nombreUsuario);
         Usuario LeerUsario(int idUsuario);
+        Usuario LeerUsario(string nombreUsuario);
         List<Rol> LeerRoles(int idUsuario);
     }
 }

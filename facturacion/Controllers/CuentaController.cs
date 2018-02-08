@@ -33,7 +33,7 @@ namespace facturacion.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registro(RegistroViewModel model, string returnUrl = null)
+        public IActionResult Registro(RegistroViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -52,67 +52,63 @@ namespace facturacion.Controllers
                 });
 
 
-                if (usuario.Id > 0)
-                {
-
-                }
-                else
+                if (usuario.Id <= 0)
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return View(model);
                 }
 
-                var user = await AuthenticateUser(model.Correo, model.Contrasena);
+                //var user = await AuthenticateUser(model.Correo, model.Contrasena);
 
 
-                if (user == null)
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
-                }
+                //if (user == null)
+                //{
+                //    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                //    return View(model);
+                //}
 
-                #region snippet1
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.Correo),
-                    new Claim("FullName", user.Nombre)
-                };
+                //#region snippet1
+                //var claims = new List<Claim>
+                //{
+                //    new Claim(ClaimTypes.Name, user.Correo),
+                //    new Claim("FullName", user.Nombre)
+                //};
 
-                var claimsIdentity = new ClaimsIdentity(
-                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                //var claimsIdentity = new ClaimsIdentity(
+                //    claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                var authProperties = new AuthenticationProperties
-                {
-                    //AllowRefresh = <bool>,
-                    // Refreshing the authentication session should be allowed.
+                //var authProperties = new AuthenticationProperties
+                //{
+                //    //AllowRefresh = <bool>,
+                //    // Refreshing the authentication session should be allowed.
 
-                    //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-                    // The time at which the authentication ticket expires. A 
-                    // value set here overrides the ExpireTimeSpan option of 
-                    // CookieAuthenticationOptions set with AddCookie.
+                //    //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                //    // The time at which the authentication ticket expires. A 
+                //    // value set here overrides the ExpireTimeSpan option of 
+                //    // CookieAuthenticationOptions set with AddCookie.
 
-                    //IsPersistent = true,
-                    // Whether the authentication session is persisted across 
-                    // multiple requests. Required when setting the 
-                    // ExpireTimeSpan option of CookieAuthenticationOptions 
-                    // set with AddCookie. Also required when setting 
-                    // ExpiresUtc.
+                //    //IsPersistent = true,
+                //    // Whether the authentication session is persisted across 
+                //    // multiple requests. Required when setting the 
+                //    // ExpireTimeSpan option of CookieAuthenticationOptions 
+                //    // set with AddCookie. Also required when setting 
+                //    // ExpiresUtc.
 
-                    //IssuedUtc = <DateTimeOffset>,
-                    // The time at which the authentication ticket was issued.
+                //    //IssuedUtc = <DateTimeOffset>,
+                //    // The time at which the authentication ticket was issued.
 
-                    //RedirectUri = <string>
-                    // The full path or absolute URI to be used as an http 
-                    // redirect response value.
-                };
+                //    //RedirectUri = <string>
+                //    // The full path or absolute URI to be used as an http 
+                //    // redirect response value.
+                //};
 
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity),
-                    authProperties);
-                #endregion
+                //await HttpContext.SignInAsync(
+                //    CookieAuthenticationDefaults.AuthenticationScheme,
+                //    new ClaimsPrincipal(claimsIdentity),
+                //    authProperties);
+                //#endregion
 
-                _logger.LogInformation($"User {user.Correo} logged in at {DateTime.UtcNow}.");
+                //_logger.LogInformation($"User {user.Correo} logged in at {DateTime.UtcNow}.");
 
                 return RedirectToLocal(returnUrl);
             }
@@ -162,7 +158,7 @@ namespace facturacion.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult LogIn(LogInViewModel model, string returnUrl = null)
+        public async Task<IActionResult> LogIn(LogInViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -172,7 +168,63 @@ namespace facturacion.Controllers
 
                 if (hashModel.Equals(hashBd))
                 {
+                    var usuario = _repoUsuario.LeerUsario(model.Cuenta);
 
+                    #region snippet1
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, usuario.Correo),
+                        new Claim("FullName", usuario.ToString())
+                    };
+
+                    foreach (var claim in usuario.Especificaciones)
+                    {
+                        claims.Add(new Claim(claim.Nombre, claim.Valor));
+                    }
+
+                    foreach (var rol in usuario.Roles)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, rol.Nombre));
+                    }
+
+                    var claimsIdentity = new ClaimsIdentity(
+                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    var authProperties = new AuthenticationProperties
+                    {
+                        //AllowRefresh = <bool>,
+                        // Refreshing the authentication session should be allowed.
+
+                        //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                        // The time at which the authentication ticket expires. A 
+                        // value set here overrides the ExpireTimeSpan option of 
+                        // CookieAuthenticationOptions set with AddCookie.
+
+                        IsPersistent = true
+                        // Whether the authentication session is persisted across 
+                        // multiple requests. Required when setting the 
+                        // ExpireTimeSpan option of CookieAuthenticationOptions 
+                        // set with AddCookie. Also required when setting 
+                        // ExpiresUtc.
+
+                        //IssuedUtc = <DateTimeOffset>,
+                        // The time at which the authentication ticket was issued.
+
+                        //RedirectUri = <string>
+                        // The full path or absolute URI to be used as an http 
+                        // redirect response value.
+                    };
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity),
+                        authProperties);
+                    #endregion
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Usuario o contraseña incorrectos");
+                    return View(model);
                 }
             }
             return View();

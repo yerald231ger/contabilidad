@@ -12,12 +12,7 @@ namespace servicios.implementaciones.facturacion
         public RepoUsuarios(FacturacionDbContext dbContext) : base(dbContext)
         {
         }
-
-        public string GetHashCode(string nombreUsuario)
-        {
-            return _dbSet.Where(u => u.NombreUsuario == nombreUsuario).Select(u => u.HashContrasena).First();
-        }
-
+        
         public Usuario LeerUsario(int idUsuario)
         {
             var usuario = _dbSet.Find(idUsuario);
@@ -43,6 +38,19 @@ namespace servicios.implementaciones.facturacion
                 $"WHERE IdUsuario = {idUsuario}").ToList();
 
             return especs;
+        }
+
+        public string ObtenerHash(string nombreUsuario)
+        {
+            return _dbSet.Where(u => u.Correo == nombreUsuario).Select(u => u.HashContrasena).First();
+        }
+
+        public Usuario LeerUsario(string nombreUsuario)
+        {
+            var usuario = _dbSet.First(u => u.NombreUsuario == nombreUsuario);
+            usuario.CargarRoles(this);
+            usuario.CargarEspecificaciones(this);
+            return usuario;
         }
     }
 
