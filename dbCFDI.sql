@@ -1,6 +1,6 @@
 ﻿USE [dbCFDI]
 GO
-/****** Object:  Table [dbo].[tbl_Especificaciones]    Script Date: 07/02/2018 04:33:43 p. m. ******/
+/****** Object:  Table [dbo].[tbl_Especificaciones]    Script Date: 07/02/2018 09:29:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -19,7 +19,7 @@ CREATE TABLE [dbo].[tbl_Especificaciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_Roles]    Script Date: 07/02/2018 04:33:43 p. m. ******/
+/****** Object:  Table [dbo].[tbl_Roles]    Script Date: 07/02/2018 09:29:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -36,7 +36,7 @@ CREATE TABLE [dbo].[tbl_Roles](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_RolesUsuario]    Script Date: 07/02/2018 04:33:43 p. m. ******/
+/****** Object:  Table [dbo].[tbl_RolesUsuario]    Script Date: 07/02/2018 09:29:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -46,7 +46,7 @@ CREATE TABLE [dbo].[tbl_RolesUsuario](
 	[IdRol] [int] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_Usuarios]    Script Date: 07/02/2018 04:33:43 p. m. ******/
+/****** Object:  Table [dbo].[tbl_Usuarios]    Script Date: 07/02/2018 09:29:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -59,7 +59,7 @@ CREATE TABLE [dbo].[tbl_Usuarios](
 	[NumeroCelular] [varchar](255) NULL,
 	[NombreUsuario] [varchar](255) NOT NULL,
 	[Correo] [varchar](255) NOT NULL,
-	[Contrasena] [varchar](255) NOT NULL,
+	[HashContrasena] [varchar](255) NOT NULL,
 	[FechaNacimiento] [date] NOT NULL,
 	[FechaAlta] [datetime2](7) NULL,
 	[FechaModificacion] [datetime2](7) NULL,
@@ -106,9 +106,9 @@ INSERT [dbo].[tbl_RolesUsuario] ([IdUsuario], [IdRol]) VALUES (1, 2)
 GO
 SET IDENTITY_INSERT [dbo].[tbl_Usuarios] ON 
 GO
-INSERT [dbo].[tbl_Usuarios] ([Id], [Nombre], [PrimerApellido], [SegundoApellido], [NumeroCelular], [NombreUsuario], [Correo], [Contrasena], [FechaNacimiento], [FechaAlta], [FechaModificacion], [EsActivo]) VALUES (1, N'Gerardo ', N'Sanchez', N'Hernandez', N'4875509482', N'yerald231ger', N'yerald231ger@gmail.com', N'!@Ger231', CAST(N'2012-12-12' AS Date), CAST(N'2012-12-12T00:00:00.0000000' AS DateTime2), CAST(N'2012-12-12T00:00:00.0000000' AS DateTime2), 1)
+INSERT [dbo].[tbl_Usuarios] ([Id], [Nombre], [PrimerApellido], [SegundoApellido], [NumeroCelular], [NombreUsuario], [Correo], [HashContrasena], [FechaNacimiento], [FechaAlta], [FechaModificacion], [EsActivo]) VALUES (1, N'Gerardo ', N'Sanchez', N'Hernandez', N'4875509482', N'yerald231ger', N'yerald231ger@gmail.com', N'!@Ger231', CAST(N'2012-12-12' AS Date), CAST(N'2012-12-12T00:00:00.0000000' AS DateTime2), CAST(N'2012-12-12T00:00:00.0000000' AS DateTime2), 1)
 GO
-INSERT [dbo].[tbl_Usuarios] ([Id], [Nombre], [PrimerApellido], [SegundoApellido], [NumeroCelular], [NombreUsuario], [Correo], [Contrasena], [FechaNacimiento], [FechaAlta], [FechaModificacion], [EsActivo]) VALUES (2, N'Luis', N'Sanchez', N'Hernandez', N'8125660570', N'yerald231ger', N'yerald231luis@gmail.com', N'!@Ger231', CAST(N'2012-12-12' AS Date), CAST(N'2012-12-12T00:00:00.0000000' AS DateTime2), CAST(N'2012-12-12T00:00:00.0000000' AS DateTime2), 1)
+INSERT [dbo].[tbl_Usuarios] ([Id], [Nombre], [PrimerApellido], [SegundoApellido], [NumeroCelular], [NombreUsuario], [Correo], [HashContrasena], [FechaNacimiento], [FechaAlta], [FechaModificacion], [EsActivo]) VALUES (2, N'Luis', N'Sanchez', N'Hernandez', N'8125660570', N'yerald231ger', N'yerald231luis@gmail.com', N'!@Ger231', CAST(N'2012-12-12' AS Date), CAST(N'2012-12-12T00:00:00.0000000' AS DateTime2), CAST(N'2012-12-12T00:00:00.0000000' AS DateTime2), 1)
 GO
 SET IDENTITY_INSERT [dbo].[tbl_Usuarios] OFF
 GO
