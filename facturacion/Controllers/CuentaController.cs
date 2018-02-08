@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using datos.Objetos;
@@ -11,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using servicios.interfaces;
+using servicios.Utils;
 
 namespace facturacion.Controllers
 {
@@ -38,13 +38,8 @@ namespace facturacion.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                // Use Input.Email and Input.Password to authenticate the user
-                // with your custom authentication logic.
-                //
-                // For demonstration purposes, the sample validates the user
-                // on the email address maria.rodriguez@contoso.com with 
-                // any password that passes model validation.
-               var usuario = _repoUsuario.Create(new Usuario
+
+                var usuario = _repoUsuario.Create(new Usuario
                 {
                     Nombre = model.Nombre,
                     PrimerApellido = model.PrimerApellido,
@@ -52,14 +47,14 @@ namespace facturacion.Controllers
                     NumeroCelular = model.NumeroCelular,
                     NombreUsuario = model.Correo,
                     Correo = model.Correo,
-                    Contrasena = model.Contrasena,
+                    HashContrasena = HashString.Encrypt(model.Contrasena),
                     FechaNacimiento = model.FechaNacimiento
-               });
+                });
 
 
-                if(usuario.Id > 0)
+                if (usuario.Id > 0)
                 {
-                  
+
                 }
                 else
                 {
@@ -159,8 +154,27 @@ namespace facturacion.Controllers
             }
         }
 
-        public IActionResult LogIn()
+        public IActionResult LogIn(string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult LogIn(LogInViewModel model, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            if (ModelState.IsValid)
+            {
+                string hashModel = HashString.Encrypt(model.Contrasena);
+                string hashBd = _repoUsuario.ObtenerHash(model.Cuenta);
+
+                if (hashModel.Equals(hashBd))
+                {
+
+                }
+            }
             return View();
         }
 

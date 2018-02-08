@@ -14,7 +14,7 @@ namespace datos.Objetos
         public string Correo { get; set; }
         public string NumeroCelular { get; set; }
 
-        public string Contrasena { get; set; }
+        public string HashContrasena { get; set; }
         
         [NotMapped]
         public ICollection<Rol> Roles { get; set; }
