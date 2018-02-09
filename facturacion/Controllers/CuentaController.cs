@@ -168,7 +168,7 @@ namespace facturacion.Controllers
 
                 if (hashModel.Equals(hashBd))
                 {
-                    var usuario = _repoUsuario.LeerUsario(model.Cuenta);
+                    var usuario = _repoUsuario.LeerUsuario(model.Cuenta);
 
                     #region snippet1
                     var claims = new List<Claim>

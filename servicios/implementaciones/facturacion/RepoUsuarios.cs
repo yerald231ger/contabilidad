@@ -12,13 +12,20 @@ namespace servicios.implementaciones.facturacion
         public RepoUsuarios(FacturacionDbContext dbContext) : base(dbContext)
         {
         }
-        
-        public Usuario LeerUsario(int idUsuario)
+
+        public Usuario LeerUsuario(int idUsuario)
         {
-            var usuario = _dbSet.Find(idUsuario);
-            usuario.CargarRoles(this);
-            usuario.CargarEspecificaciones(this);
-            return usuario;
+            return LeerUsuario(idUsuario, string.Empty);
+        }
+
+        public string ObtenerHash(string nombreUsuario)
+        {
+            return _dbSet.Where(u => u.Correo == nombreUsuario).Select(u => u.HashContrasena).First();
+        }
+
+        public Usuario LeerUsuario(string nombreUsuario)
+        {
+            return LeerUsuario(0, nombreUsuario);
         }
 
         public List<Rol> LeerRoles(int idUsuario)
@@ -30,7 +37,7 @@ namespace servicios.implementaciones.facturacion
                 "AND A.EsActivo = 1").ToList();
             return roles;
         }
-        
+
         public List<Especificacion> LeerEspecificaciones(int idUsuario)
         {
             var especs = _context.Set<Especificacion>().FromSql(
@@ -40,16 +47,15 @@ namespace servicios.implementaciones.facturacion
             return especs;
         }
 
-        public string ObtenerHash(string nombreUsuario)
+        private Usuario LeerUsuario(int idUsuario, string nombreUsuario)
         {
-            return _dbSet.Where(u => u.Correo == nombreUsuario).Select(u => u.HashContrasena).First();
-        }
+            var usuario = _dbSet.Where(u => u.Correo == nombreUsuario || u.Id == idUsuario).First();
+            if (usuario == null)
+                return null;
 
-        public Usuario LeerUsario(string nombreUsuario)
-        {
-            var usuario = _dbSet.First(u => u.NombreUsuario == nombreUsuario);
             usuario.CargarRoles(this);
             usuario.CargarEspecificaciones(this);
+
             return usuario;
         }
     }
