@@ -35,8 +35,7 @@ namespace facturacion
                     options.LogoutPath = "/home/";
                     options.Cookie.Expiration = TimeSpan.FromMinutes(2.5);
                 });
-
-
+            
             services.AddTransient<IRepoUsuarios, RepoUsuarios>();
             
             services.AddMvc();

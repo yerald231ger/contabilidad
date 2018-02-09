@@ -7,7 +7,7 @@ namespace servicios.Utils
 {
     public class HashString
     {
-        public static string key = "men#$827_Slpe=.:PESLK";
+        public static string key = "GerardoSanchezHernandez=";
 
         public static string Encrypt(string input, byte[] key)
         {

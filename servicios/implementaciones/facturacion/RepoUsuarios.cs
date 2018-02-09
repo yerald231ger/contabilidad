@@ -13,36 +13,40 @@ namespace servicios.implementaciones.facturacion
         {
         }
 
-        public string GetHashCode(string nombreUsuario)
-        {
-            return _dbSet.Where(u => u.NombreUsuario == nombreUsuario).Select(u => u.HashContrasena).First();
-        }
+        public Usuario LeerUsuario(int idUsuario) 
+            => LeerUsuario(idUsuario, string.Empty);
 
-        public Usuario LeerUsario(int idUsuario)
-        {
-            var usuario = _dbSet.Find(idUsuario);
-            usuario.CargarRoles(this);
-            usuario.CargarEspecificaciones(this);
-            return usuario;
-        }
+        public string ObtenerHash(string nombreUsuario) 
+            => _dbSet.Where(u => u.Correo == nombreUsuario).Select(u => u.HashContrasena).First();
 
-        public List<Rol> LeerRoles(int idUsuario)
-        {
-            var roles = _context.Set<Rol>().FromSql("" +
+        public Usuario LeerUsuario(string nombreUsuario) 
+            => LeerUsuario(0, nombreUsuario);
+
+        public List<Rol> LeerRoles(int idUsuario) 
+            => _context.Set<Rol>().FromSql("" +
                 "SELECT A.Id, A.Nombre, A.FechaAlta, A.FechaModificacion, A.EsActivo " +
                 "FROM tbl_Roles A JOIN tbl_RolesUsuario B ON A.Id = B.IdRol " +
                 $"WHERE B.IdUsuario = {idUsuario} " +
                 "AND A.EsActivo = 1").ToList();
-            return roles;
-        }
-        
-        public List<Especificacion> LeerEspecificaciones(int idUsuario)
-        {
-            var especs = _context.Set<Especificacion>().FromSql(
+
+        public List<Especificacion> LeerEspecificaciones(int idUsuario) 
+            => _context.Set<Especificacion>().FromSql(
                 $"SELECT * FROM tbl_Especificaciones " +
                 $"WHERE IdUsuario = {idUsuario}").ToList();
 
-            return especs;
+        public bool EstaDisponible(string nombreUsuario) 
+            => (_dbSet.Where(u => u.Correo == nombreUsuario).First() == null) ? false : true;
+
+        private Usuario LeerUsuario(int idUsuario, string nombreUsuario)
+        {
+            var usuario = _dbSet.Where(u => u.Correo == nombreUsuario || u.Id == idUsuario).First();
+            if (usuario == null)
+                return null;
+
+            usuario.CargarRoles(this);
+            usuario.CargarEspecificaciones(this);
+
+            return usuario;
         }
     }
 
