@@ -33,7 +33,7 @@ namespace facturacion
                     options.AccessDeniedPath = "/cuenta/denegado";
                     options.LoginPath = "/cuenta/login";
                     options.LogoutPath = "/home/";
-                    options.Cookie.Expiration = TimeSpan.FromMinutes(2.5);
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 });
             
             services.AddTransient<IRepoUsuarios, RepoUsuarios>();
