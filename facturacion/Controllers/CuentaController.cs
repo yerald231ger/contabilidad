@@ -25,6 +25,20 @@ namespace facturacion.Controllers
             _repoUsuario = repoUsuarios;
         }
 
+        [HttpGet("cuenta/re")]
+        public IActionResult RegistroEmpresa(string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
+
+        [HttpPost("cuenta/re")]
+        [ValidateAntiForgeryToken]
+        public IActionResult RegistroEmpresa(RegistroNegocioViewModels model)
+        {
+            return View();
+        }
+
         public IActionResult Registro(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;

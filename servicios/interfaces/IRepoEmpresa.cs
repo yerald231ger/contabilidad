@@ -2,7 +2,7 @@
 
 namespace servicios.interfaces
 {
-    public interface IRepoEspecificaciones : IRepo<Especificacion, int>
+    public interface IRepoEmpresa : IRepo<Empresa, int>
     {
     }
 }
